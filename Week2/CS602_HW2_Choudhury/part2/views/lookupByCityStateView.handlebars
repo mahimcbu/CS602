@@ -1,7 +1,13 @@
-<b>Results for ...</b>
+<b>Results for {{cityData.city}}, {{cityData.state}}</b>
 <p></p>
 <table>
 <tr><th>ZipCode</th><th>Population</th></tr>
+{{#each cityData.data }}
+    <tr>
+        <td><a href="">{{this.zip}}</a></td>
+        <td>{{this.pop}}</td>
 
+    </tr>
+{{/each}}
 
 </table>
