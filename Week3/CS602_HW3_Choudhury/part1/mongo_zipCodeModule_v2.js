@@ -36,8 +36,6 @@ module.exports.lookupByCityState = async (city, state) => {
 	let result2=  await collection.find({'city': city,'state': state}).toArray();
 	let myObj = {};
     let myArray=[];
-    myObj["city"]= city;
-    myObj["state"]= state;	
 	myObj["city"]= city;
     myObj["state"]= state;
 	const place = result2.filter(e =>{ //filter out the places for the given city and state
