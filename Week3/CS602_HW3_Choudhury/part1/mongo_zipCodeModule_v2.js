@@ -33,10 +33,32 @@ module.exports.lookupByCityState = async (city, state) => {
 	let collection = client.db(credentials.database).collection('zipcodes');
 	
 	// Fill in the rest
+	let result2=  await collection.find({'city': city,'state': state}).toArray();
+	let myObj = {};
+    let myArray=[];
+    myObj["city"]= city;
+    myObj["state"]= state;	
+	myObj["city"]= city;
+    myObj["state"]= state;
+	const place = result2.filter(e =>{ //filter out the places for the given city and state
+        if (e.city === city && e.state === state){
+            found = true;
+            return true;
+        }
+        if (found === false){
+            myObj["data"]= [];
+        }
+    });
+   const zip_pop= place.map(e=>{ //map the place array object to extract the zip and pop
+        let myzipAndpop = {} // object to store zip and pop and update within for loop
+        myzipAndpop["zip"]=e._id;
+        myzipAndpop["pop"]=e.pop;
+        myArray.push(myzipAndpop);
+        myObj["data"]= myArray;
 
-
+   });
+   return(myObj);
 };
-
 module.exports.getPopulationByState = 
 	async (state) => {
 
@@ -44,6 +66,15 @@ module.exports.getPopulationByState =
 		let collection = client.db(credentials.database).collection('zipcodes');
 	
 		// Fill in the rest
-		
+		let result3=  await collection.find({'state': state}).toArray();
+
+		let myObj = {};
+        myObj["state"]= state;
+		const totalPop = result3.reduce((total, e)=>{
+            if(state === e.state) return total + e.pop;
+            else return total;
+        },0);
+        myObj["pop"]=totalPop;
+        return (myObj);
 	};
 

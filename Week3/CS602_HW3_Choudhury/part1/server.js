@@ -77,27 +77,57 @@ app.get('/zip/:id', async function(req, res) {
 // Complete the code for the following
 
 app.get('/city', async function(req, res){
-	
+	if (req.query.city && req.query.state) {
+		var city = req.query.city.toString();
+		var state = req.query.state.toString();
+		var data = cities.lookupByCityState(city,state);
+		res.render("lookupByCityStateView", {cityData: data});
+    } else {
+        res.render('lookupByCityStateForm');
+    }
 	
 });
 
 app.post('/city', async function(req, res){
-	
+	var data = cities.lookupByCityState(req.body.city, req.body.state);
+	res.render('lookupByCityStateView', { cityData: data });
 
 });
 
 app.get('/city/:city/state/:state', async function(req, res) {
-	
+	var data = cities.lookupByCityState(req.params.city, req.params.state);
+	if (req.accepts('json')) {
+		res.json(data);
+	} else if (req.accepts('xml')) {
+		res.type('xml');
+		res.send(js2xmlparser.parse("data", data)); //using a parser to simplify
+	} else {
+		res.render('lookupByCityStateView', { cityData: data });
+	}
 
 });
 
 app.get('/pop', async function(req, res) {
-	
+	if (req.query.state) {
+		var id = req.query.state.toString();
+		var data = cities.getPopulationByState(id);
+		res.render('populationView', {popData: data});
+    } else {
+        res.render('populationForm');
+    }
 	
 });
 
 app.get('/pop/:state', async function(req, res) {
-	
+	var data = cities.getPopulationByState(req.params.state);
+	if (req.accepts('json')) {
+		res.json(data);
+	} else if (req.accepts('xml')) {
+		res.type('xml');
+		res.send(js2xmlparser.parse("data", data)); //using a parser to simplify
+	} else {
+		res.render('populationView', { popData: data });
+	}
 
 });
 
