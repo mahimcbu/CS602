@@ -1,35 +1,39 @@
-<h1>Admin Page</h1>
+<h1>{{title}}</h1>
 
 <table>
-  <tr>
+  {{!-- <tr class="main_rows">
     <th>Product Name</th>
     <th>Description</th>
-    <th>Price</th>
-    <th>Quantity in Stock</th>
+    <th>Price(per lb)</th>
+    <th>Quantity in cart</th>
     <th>Actions</th>
-  </tr>
-  <tr>
-    <td>Product 1</td>
-    <td>Description for product 1</td>
-    <td>$10.00</td>
-    <td>50</td>
-    <td>
-      <button>Update</button>
-      <button>Delete</button>
-    </td>
-  </tr>
-  <!-- repeat the above tr for each product -->
+  </tr> --}}
+    {{#if data}}
+		<tr>
+            <th>Product Name</th>
+            <th>Description</th>
+            <th>Price(per lb)</th>
+            <th>Quantity in stock</th>
+            <th>Actions</th>
+			<th></th>
+		</tr>
+	{{else}}
+			<tr><td colspan="3">No Products found ... Add One!</td></tr>
+	{{/if}}
+    {{#each data}}
+        <tr class="main_rows">
+            <td>{{this.product}}</td>
+            <td>{{this.description}}</td>
+            <td>${{formatPrice this.price}}</td>
+            <td>{{this.quantity}}</td>
+             <td>
+                <a href="/admin/edit/{{this.id}}">Edit</a> | 
+							  <a href="/admin/delete/{{this.id}}">Delete</a>
+            </td>
+        </tr>
+        {{/each}}
 </table>
-
-<form>
-  <label for="product-name">Product Name:</label>
-  <input type="text" id="product-name" name="product-name"><br><br>
-  <label for="description">Description:</label>
-  <input type="text" id="description" name="description"><br><br>
-  <label for="price">Price:</label>
-  <input type="text" id="price" name="price"><br><br>
-  <label for="quantity">Quantity in Stock:</label>
-  <input type="text" id="quantity" name="quantity"><br><br>
-  <button type="submit">Add Product</button>
-  <button type="submit">Update Product</button>
-</form>
+<br>
+<h1>Add a Product to the stock</h1>
+	<button class="btn btn-primary" onClick="addProduct()">Add</button>  
+  {{!-- <input type="button" value="Cancel" class="btn btn-danger" onclick="cancelAdd()"> --}}

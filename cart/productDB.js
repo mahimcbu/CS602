@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const credentials = require("./credentials.js");
+const credentials = require("./productCredentials.js");
 
 const dbUrl = 'mongodb+srv://' + credentials.username +
 	':' + credentials.password + '@' + credentials.host + '/' + credentials.database;
@@ -10,13 +10,26 @@ let model = null;
 
 let Schema = mongoose.Schema;
 
+
 let productSchema = new Schema({
+    
 	productName : {
 		type: String,
-		required: true
+        trim : true,
+		required: true,
+        unique: true
 	},
 	description : {
 		type: String,
+        trim : true,
+		required: true
+	},
+    price : {
+		type: mongoose.SchemaTypes.Decimal128,
+		required: true,
+	},
+    quantity : {
+		type: Number,
 		required: true
 	}
 }, {

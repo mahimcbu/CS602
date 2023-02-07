@@ -7,15 +7,15 @@ const Product = ProductDB.getModel();
 	await Product.deleteMany({});
 
 	let product1 = new Product({
-		productName:'Green apple',description:'Smith'
+		productName:'Green apple',description:'Fresh produced green apple', price:3.00, quantity:20
 	}); 
 
 	let product2 = new Product({
-		productName:'Cherry tomato',description:'Smith'
+		productName:'Cherry tomato',description:'Fresh garden red cherry tomato',price:2.50, quantity:30
 	}); 
 
 	let product3 = new Product({
-		productName:'Banana',description:'Doe'
+		productName:'Banana',description:'Florida banana',price:1.90, quantity:20
 	}); 
 
 

@@ -1,5 +1,6 @@
 const express = require('express');
 const handlebars = require('express-handlebars');
+var Handlebars = require('./helper');
 var bodyParser = require('body-parser');
 
 var app = express();
@@ -12,20 +13,15 @@ app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.get('/',function(req,res){
-    res.send("Hi from the server");
-})
+// Routing
+var routes = require('./routes/index');
+app.use('/', routes);
 
+app.use(function(req, res) {
+    res.status(404);
+    res.render('404');
+});
 
-app.get('/customer', function(req,res){
-    res.render('customerView');
-})
-app.get('/customer/history', function(req,res){
-    res.render('customerHistoryView');
-});
-app.get('/admin', function(req,res){
-    res.render('adminView');
-});
 
 app.listen(3000, function(){
     console.log("Connected to server");
