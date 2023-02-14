@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "colors": "^1.4.0",
-    "mongodb": "^5.0.0"
+    "mongodb": "^5.0.0",
+    "mongoose-currency": "^0.2.0"
   }
 }

@@ -14,94 +14,120 @@ function cancelDelete(){
     window.location.href = '/admin';
 }
 
-function addToCart(event,price, stock) {
-    var quantity = event.target.parentNode.parentNode.querySelector("td:nth-child(4)");
-    var stockEl = event.target.parentNode.parentNode.querySelector("td:nth-child(6)");
+// function addToCart(event,price, stock) {
+//     var quantity = event.target.parentNode.parentNode.querySelector("td:nth-child(4)");
+//     var stockEl = event.target.parentNode.parentNode.querySelector("td:nth-child(6)");
 
-    if (parseInt(quantity.innerHTML) < stock && parseInt(quantity.innerHTML) >= 0) {
-        quantity.innerHTML = parseInt(quantity.innerHTML) + 1;
-        stockEl.innerHTML = stock - parseInt(quantity.innerHTML);
+//     if (parseInt(quantity.innerHTML) < stock && parseInt(quantity.innerHTML) >= 0) {
+//         quantity.innerHTML = parseInt(quantity.innerHTML) + 1;
+//         stockEl.innerHTML = stock - parseInt(quantity.innerHTML);
+//         let totalMoney = parseFloat(document.querySelector("#totalMoney").textContent) || 0;
+//         document.querySelector("#totalMoney").textContent = (totalMoney + (price)).toFixed(2);
+//       }
+//   }
 
-        let totalMoney = parseFloat(document.querySelector("#totalMoney").textContent) || 0;
-        document.querySelector("#totalMoney").textContent = (totalMoney + (price)).toFixed(2);
-      }
+function addToCart(event, price, stock, productId) {
+  var quantity_avail = event.target.parentNode.parentNode.querySelector("td:nth-child(4)");
+  var stockEl = event.target.parentNode.parentNode.querySelector("td:nth-child(6)");
+
+  if (parseInt(quantity_avail.innerHTML) < stock && parseInt(quantity_avail.innerHTML) >= 0) {
+      quantity_avail.innerHTML = parseInt(quantity_avail.innerHTML) + 1;
+      stockEl.innerHTML = stock - parseInt(quantity_avail.innerHTML);
+
+      const adminFormData = new URLSearchParams();
+      adminFormData.append('id', productId);
+      adminFormData.append('quantity', stockEl.innerHTML);
+      fetch('/customer/edit', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          body: adminFormData.toString()
+      })
+      .then(res => res.json())
+      .then(data => {
+          console.log("Quantity updated in admin panel");
+      })
+      .catch(err => {
+          console.log(err);
+      });
   }
 
+  let totalMoney = parseFloat(document.querySelector("#totalMoney").textContent) || 0;
+  document.querySelector("#totalMoney").textContent = (totalMoney + (price)).toFixed(2);
+}
 
 
-  function removeFromCart(event, price, stock) {
+
+
+  function removeFromCart(event, price, stock, productId) {
     var quantity = event.target.parentNode.parentNode.querySelector("td:nth-child(4)");
     var stockEl = event.target.parentNode.parentNode.querySelector("td:nth-child(6)");
   
-    if (parseInt(quantity.innerHTML) > 0) {
+    if (parseInt(quantity.innerHTML) > 0 ) {
         quantity.innerHTML = parseInt(quantity.innerHTML) - 1;
         stockEl.innerHTML = parseInt(stockEl.innerHTML) + 1;
-  
+        
+        const adminFormData = new URLSearchParams();
+      adminFormData.append('id', productId);
+      adminFormData.append('quantity', stockEl.innerHTML);
+      fetch('/customer/edit', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          body: adminFormData.toString()
+      })
+      .then(res => res.json())
+      .then(data => {
+          console.log("Quantity updated in admin panel");
+      })
+      .catch(err => {
+          console.log(err);
+      });
+
         let totalMoney = parseFloat(document.querySelector("#totalMoney").textContent) || 0;
         document.querySelector("#totalMoney").textContent = (totalMoney - (price)).toFixed(2);
     }
   }
 
-
-  //Checkout order..................................
-
-  function checkout() {
-    // Calculate the total amount of the cart
-    let total = 0;
-    let products = document.querySelectorAll(".main_rows");
-    let orderedProducts = [];
-    products.forEach(product => {
-      let name = product.querySelector("td:nth-child(1)").innerHTML;
-      let productID = document.getElementById("productID").innerHTML;
-      let quantity = parseInt(product.querySelector("td:nth-child(4)").innerHTML);
-      let price = parseFloat(product.querySelector("td:nth-child(3)").innerHTML.substring(1));
-      if (quantity > 0) {
-        orderedProducts.push({ name, quantity, price, productID });
-        total += quantity * price;
+    function checkout() {
+        let total = 0;
+        let products = document.querySelectorAll(".main_rows");
+        let orderedProducts = [];
+        products.forEach(product => {
+          let name = product.querySelector("td:nth-child(1)").innerHTML;
+          let productId = product.querySelector("td:nth-child(7)").innerHTML;
+          let quantity = parseInt(product.querySelector("td:nth-child(4)").innerHTML);
+          let price = parseFloat(product.querySelector("td:nth-child(3)").innerHTML.substring(1));
+          if (quantity > 0) {
+            orderedProducts.push({ name, quantity, price, productId });
+            total += quantity * price;
+          }
+        });
+        let customerId = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+        const formData = new URLSearchParams();
+        formData.append('customerId', customerId);
+        formData.append('total', total);
+        formData.append('orderedProducts', JSON.stringify(orderedProducts));
+        return fetch('/customer/order', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          body: formData.toString()
+        })
+        .then(res => res.json())
+        .then(data => {
+          // handle success
+          window.location.href = "/customer/order";
+        })
+        .catch(err => {
+          console.log(err)
+          // handle error
+        });
       }
-    });
-    
-    // Get a unique customer ID
-    let customerId = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-  
-//      // send the order data to the server
-//     let response = fetch('/api/order', {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json'
-//     },
-//     body: JSON.stringify({
-//       customerId,
-//       orderedProducts,
-//       total
-//     })
-//   });
-
-//   let result = response.json();
-//   console.log(result);
-//   console.log("result");
-
-
-
-
-    //Show the order result
-    let orderResult = document.createElement("div");
-    let productsList = orderedProducts.map(p => `<li>${p.name} - Quantity: ${p.quantity} - Price (per lb): $${p.price.toFixed(2)}</li>`).join("");
-    orderResult.innerHTML = `
-      <h2>Order Result</h2>
-      <p>Customer ID: ${customerId}</p>
-      <ul>
-        ${productsList}
-      </ul>
-      <p>Total Amount: $${total.toFixed(2)}</p>
-    `;
-    document.body.appendChild(orderResult);
-
-
-
-  }
-  
-
+      
   function searchFunction(){
     var input, filter, table, tr, td, i, txtValue;
     input = document.getElementById("searchInput");

@@ -6,7 +6,7 @@ var displayProducts 	= require("./displayProducts");
 var adminDisplayProducts 	= require("./adminDisplayProducts");
 
 // var displayOrderHistory 	= require("./displayOrderHistory");
-// var saveOrder = require('./saveOrder')
+var saveOrder = require('./saveOrder');
 var thankyou = require('./thankyou');
 var addProduct 			= require("./addProduct");
 var saveProduct 			= require("./saveProduct");
@@ -14,6 +14,7 @@ var editProduct			= require("./editProduct");
 var saveAfterEdit 	= require("./saveAfterEdit");
 var deleteProduct 		= require("./deleteProduct");
 var deleteProductAfterConfirm 		= require("./deleteProductAfterConfirm");
+const saveAfterCart = require('./saveAfterCart')
 // const saveOrder = require('./saveOrder');
 
 // router specs
@@ -30,15 +31,16 @@ router.get('/', function(req, res, next) {
   router.post('/admin/add', 			saveProduct);
   
   router.get('/admin/edit/:id', 	editProduct);
-  router.post('/admin/edit/', 	saveAfterEdit);
+  router.post('/admin/edit', 	saveAfterEdit);
   
   router.get('/admin/delete/:id', deleteProduct);
   router.post('/admin/delete', deleteProductAfterConfirm);
 
-  router.get('/customer/thankyou', thankyou);
-  // router.post('/customer', saveOrder);
+  router.get('/customer/order', thankyou);
+  router.post('/customer/order', saveOrder);
 
 
-  
+  router.post('/customer/edit', 	saveAfterCart);
+
   module.exports = router;
   

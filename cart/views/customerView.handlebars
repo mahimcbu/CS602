@@ -23,14 +23,15 @@
             <td>${{formatPrice this.price}}</td>
             <td>0</td>
              <td>
+               <button class="btn btn-primary" 
+                onClick="addToCart(event, {{formatPrice this.price}},{{this.quantity}},'{{this.id}}')">+</button>
+
                 <button class="btn btn-primary" 
-            onClick="addToCart(event, {{formatPrice this.price}},{{this.quantity}})">+</button>
-                <button class="btn btn-primary" 
-            onClick="removeFromCart(event, {{formatPrice this.price}},{{this.quantity}})">-</button>
+            onClick="removeFromCart(event, {{formatPrice this.price}},{{this.quantity}},'{{this.id}}')">-</button>
             </td>
             <td id="stock"> {{this.quantity}}
             </td> 
-            <td name="id" id="productID" style="display:none;"> {{this.id}}</td>
+            <td style="display:none;"> {{this.id}}</td>
             {{!-- <input type="hidden" name="id" id="productID" value={{this.id}}> --}}
         </tr>
     {{/each}}

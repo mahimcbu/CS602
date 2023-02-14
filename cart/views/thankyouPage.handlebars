@@ -1,3 +1,15 @@
-<title>{{title}}</title>
-<h1>Thank you for your purchase!</h1>
-<a href="/customer">Go back</a>
+<div>
+  <h2>Thank you for your order!</h2>
+  <p>Customer ID: {{customerId}}</p>
+  {{#each orderedProducts}}
+    <div>
+      <p>Name: {{this.name}}</p>
+      <p>Quantity: {{this.quantity}}</p>
+      <p>Price: {{this.price}}</p>
+      <p>Product ID: {{this.productId}}</p>
+    </div>
+  {{/each}}
+  <p>Total: {{total}}</p>
+  <a href="/customer">Go back</a>
+</div>
+

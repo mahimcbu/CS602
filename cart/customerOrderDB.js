@@ -10,14 +10,37 @@ let model = null;
 let Schema = mongoose.Schema;
 
 let customerOrderSchema = new Schema({
-    customerId: { type: String, required: true },
-    order: [{
-      name: { type: String, required: true },
-      quantity: { type: Number, required: true },
-      price: { type: Number, required: true },
-      productId: { type: String, required: true }
-    }],
-    totalAmount: { type: Number, required: true },
+    customerId: {
+        type: String,
+        required: true,
+        unique: true
+      },
+      orderedProducts: [{
+        productId: {
+          type: String,
+          required: true
+        },
+        quantity: {
+          type: Number,
+          required: true
+        },
+        price: {
+          type: Number,
+          required: true
+        }
+      }],
+      total: {
+        type: Number,
+        required: true
+      }
+    // customerId: { type: String, required: true },
+    // order: [{
+    //   name: { type: String, required: true },
+    //   quantity: { type: Number, required: true },
+    //   price: { type: Number, required: true },
+    //   productId: { type: String, required: true }
+    // }],
+    // totalAmount: { type: Number, required: true },
     // date: { type: Date, default: Date.now }
 },{
     collection: 'customerOrders'
