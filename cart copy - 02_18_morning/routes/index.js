@@ -5,7 +5,7 @@ var router = express.Router();
 var displayProducts 	= require("./displayProducts");
 var adminDisplayProducts 	= require("./adminDisplayProducts");
 
-// var displayOrderHistory 	= require("./displayOrderHistory");
+var displayOrders 	= require("./displayOrders");
 var saveOrder = require('./saveOrder');
 var thankyou = require('./thankyou');
 var addProduct 			= require("./addProduct");
@@ -14,6 +14,9 @@ var editProduct			= require("./editProduct");
 var saveAfterEdit 	= require("./saveAfterEdit");
 var deleteProduct 		= require("./deleteProduct");
 var deleteProductAfterConfirm 		= require("./deleteProductAfterConfirm");
+var deleteOrdersAfterConfirm = require("./deleteOrdersAfterConfirm");
+var deleteOrder = require("./deleteOrder");
+
 const saveAfterCart = require('./saveAfterCart')
 // const saveOrder = require('./saveOrder');
 
@@ -25,7 +28,10 @@ router.get('/', function(req, res, next) {
   router.get('/customer', displayProducts);
   router.get('/admin', adminDisplayProducts);
 
-//   router.get('/customer/checkout', displayOrderHistory);
+  router.get('/admin/orders', displayOrders);
+
+  router.get('/orders/delete/:customerId', deleteOrder);
+  router.post('/orders/delete/confirm', deleteOrdersAfterConfirm);
   
   router.get('/admin/add', 				addProduct);
   router.post('/admin/add', 			saveProduct);

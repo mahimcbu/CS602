@@ -29,21 +29,21 @@
                 <button class="btn btn-primary" 
             onClick="removeFromCart(event, {{formatPrice this.price}},{{this.quantity}},'{{this.id}}')">-</button>
             </td>
-            <td id="stock"> {{this.quantity}}
+            <td id="stock">{{this.quantity}}
             </td> 
-            <td style="display:none;"> {{this.id}}</td>
+            <td style="display:none;">{{this.id}}</td>
             {{!-- <input type="hidden" name="id" id="productID" value={{this.id}}> --}}
         </tr>
     {{/each}}
     <br>
     <span style="display:inline-block;">
       <p style="display:inline-block;">Total: $</p>
-      <div id="totalMoney" style="display:inline-block;">0.00</div>
+      <div id="totalMoney" class="total_money" style="display:inline-block;">0.00</div>
      </span>
   </table>
 <br>
 
-<button class="btn btn-primary" onClick="checkout()">Checkout</button>
+<button class="btn btn-primary customer-page" onClick="checkout()">Checkout</button>
 {{!-- <button class="btn btn-primary" onClick="checkOut('{{this.id}}', '{{this.product}}', '{{formatPrice this.price}}', '{{this.quantity}}', document.getElementById('totalMoney').innerHTML)">Checkout</button> --}}
 <button class="btn btn-primary" onClick="cancelCheckout()">Cancel</button>
 

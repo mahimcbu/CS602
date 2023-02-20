@@ -1,13 +1,6 @@
 <h1>{{title}}</h1>
 
 <table>
-  {{!-- <tr class="main_rows">
-    <th>Product Name</th>
-    <th>Description</th>
-    <th>Price(per lb)</th>
-    <th>Quantity in cart</th>
-    <th>Actions</th>
-  </tr> --}}
     {{#if data}}
 		<tr>
             <th>Product Name</th>
@@ -36,4 +29,6 @@
 <br>
 <h1>Add a Product to the stock</h1>
 	<button class="btn btn-primary" onClick="addProduct()">Add</button>  
-  {{!-- <input type="button" value="Cancel" class="btn btn-danger" onclick="cancelAdd()"> --}}
+
+  <h1>View customer orders</h1>
+<a class="btn btn-primary" href="/admin/orders">View Orders</a>

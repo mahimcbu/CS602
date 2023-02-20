@@ -1,0 +1,25 @@
+<h1>{{title}}</h1>
+
+{{#if data}}
+    <table>
+        <tr>
+            <th>Customer ID</th>
+            <th>Ordered Products</th>
+            <th>Total</th>
+        </tr>
+        {{#each data}}
+            <tr>
+                <td>{{this.customerId}}</td>
+                <td>{{this.orderedProducts}}</td>
+                <td>{{this.total}}</td>
+                <td>
+				 <a href="/orders/delete/{{this.customerId}}">Delete</a>
+                </td>
+            </tr>
+        {{/each}}
+    </table>
+{{else}}
+    <p>No orders found.</p>
+{{/if}}
+<br>
+<a href="/admin">Go back</a>
