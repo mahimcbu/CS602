@@ -22,10 +22,12 @@ function addToCart(event, price, stock, productId) {
   if (parseInt(quantity_avail.innerHTML) < stock && parseInt(quantity_avail.innerHTML) >= 0) {
       quantity_avail.innerHTML = parseInt(quantity_avail.innerHTML) + 1;
       stockEl.innerHTML = stock - parseInt(quantity_avail.innerHTML);
+
+      let totalMoney = parseFloat(document.querySelector("#totalMoney").textContent) || 0;
+      document.querySelector("#totalMoney").textContent = (totalMoney + (price)).toFixed(2);
   }
 
-  let totalMoney = parseFloat(document.querySelector("#totalMoney").textContent) || 0;
-  document.querySelector("#totalMoney").textContent = (totalMoney + (price)).toFixed(2);
+
 }
 
 
