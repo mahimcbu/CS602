@@ -1,0 +1,34 @@
+<h1>Delete an Order</h1>
+
+{{#if data}}
+  <table>
+    <thead>
+      <tr>
+        <th>Customer ID</th>
+        <th>Ordered Products</th>
+        <th>Total</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each data}}
+        <tr>
+          <td>{{this.customerId}}</td>
+          <td>{{this.orderedProducts}}</td>
+          <td>{{this.total}}</td>
+          <td>
+            <form method="post" action="/orders/delete/confirm">
+              <input type="hidden" name="customerId" value="{{this.customerId}}">
+              <button type="submit">Confirm delete</button>
+            </form>
+          </td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+{{else}}
+  <p>No orders found.</p>
+{{/if}}
+
+<br>
+<a href="/admin">Go back</a>
